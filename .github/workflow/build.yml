@@ -1,0 +1,42 @@
+name: Build and Deploy
+
+# This workflow will run every time you push to the `main` branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js environment with the specific version you need
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # You can adjust the Node version if needed
+
+      # Step 3: Install the npm dependencies (runs `npm install`)
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run the build command (runs `npm run build` as defined in your package.json)
+      - name: Build the project
+        run: npm run build
+
+      # Step 5: Deploy the build to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist  # This is the directory where your built files are stored
+                - name: Build SCSS
+        run: npm run build:scss
+
+      - name: Build Pug
+        run: npm run build:pug
